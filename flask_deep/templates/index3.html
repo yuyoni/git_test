@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>피부타입 진단 결과</title>
+    <style>
+      button {
+          background-color: #5d6074;
+          border: none;
+          color: white;
+          padding: 10px 24px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin: 4px 2px;
+          cursor: pointer;
+      }
+
+      button:hover {
+          opacity: 0.8;
+      }
+
+      button:active, button:focus {
+          background-color: #000000;
+          color: white;
+        }
+
+      .selected {
+          background-color: black;
+          color: white;
+      }
+
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div id="header" style="text-align: center; line-height: 30px;">
+      <br><h1 id="type"></h1>
+      <hr/><br>
+      <span style="font-size: 150%">내가 쓰는 화장품이 나에게 맞는지 궁금하다면?</span>
+      <span style="font-size: 100%">: 알고싶은 화장품의 "성분표시"를 찍어 올려주세요</span>
+    </div>
+
+    <div id="nav" style="float:left; margin-top:100px; margin-left: 300px;">
+      <p id="ex">ex : </p>
+      <img id="ex_img" src="https://m.philosplaza.co.kr/web/upload/NNEditor/20190216/KakaoTalk_20190216_140709029.jpg" style="width: 200px;" alt="Image">
+    </div>
+
+    <div id="section" style="float:right; text-align:left; margin-top:100px; margin-right:300px">
+      <form action="{{ url_for('result', type=type) }}" method="POST" enctype="multipart/form-data" onchange="setThumbnail(event)">
+        <input type="file" name="file" id="image">
+        <br><br>
+        <h2 type="hidden" id="igd">{{ igd }}</h2>
+      </form>
+   
+      <br><br>
+        
+      <div id="image_container" style="width: 400px; text-align: center"></div>
+      <br><button id="button1" type="submit" onclick=getResult()>결과보기</button>
+    </div>
+
+    <div style="text-align: center; line-height: 30px; margin-top:200px;">
+      <h2 id="fit"></h2><br><br><br>
+      <button id="recommend" onclick="getRecomm()" style="display:none" > 제품 추천받기 </button>
+    </div>
+
+    <script>
+      let type = localStorage.getItem('type');
+      document.getElementById("type").innerHTML = `당신의 피부타입은 : ${type}`;
+
+      function setThumbnail(event) {
+        const reader = new FileReader();
+
+        reader.onload = function(event) {
+          let img = document.createElement("img");
+          img.setAttribute("src", event.target.result);
+          img.setAttribute("style", "width: 400px; height: auto;");
+          document.querySelector("div#image_container").appendChild(img);
+        };
+
+        reader.readAsDataURL(event.target.files[0]);
+      }
+
+      //let result = "적절";
+      //result는 모델에서 받아온 값으로 설정해야함 임시로 적절이라고 해놓음~ 원래는 모델에서 예측해야함
+  
+      // python 파일에서 받아와서 result 전역변수에 저장
+      let result = "";
+
+      function getResult() {
+        $('#button1, #image, #image_container, #ex_img, #ex').hide();
+        document.getElementById("recommend").style.display ='block'
+        document.getElementById("recommend").style = 'text_align'
+
+        result = document.getElementsByName("igd")    
+
+        // 부적절 적절 판단 멘트
+        document.getElementById("fit").innerHTML = `지금 사용중인 제품은 ${type}에 ${result}합니다.`;
+      }
+
+      function getRecomm() {
+        //result를 index4에서도 사용해야하므로 localStorage.setItem()
+        localStorage.setItem('result', result);
+        const url = `/recommend?type=${type}&result=${result}`;
+        window.location.href = url;
+      }
+
+      // 파이썬 파일에서 받아온 값 적절, 부적절 중 하나 inp, apr
+      // 파이썬에서 설정하기,, 코드 추가
+
+    </script>    
+</body>
+</html>

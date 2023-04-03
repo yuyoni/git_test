@@ -1,0 +1,51 @@
+button {
+    background-color: #5d6074;
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+button:active, button:focus {
+    background-color: #000000;
+    color: white;
+}
+
+.selected {
+    background-color: black;
+    color: white;
+}
+
+div#main {
+    text-align: center;
+    line-height: 100px;
+}
+
+.bar-container {
+    text-align: center;
+}
+
+#progress {
+    appearance: none;
+}
+#progress::-webkit-progress-bar {
+    background:#f0f0f0;
+    border-radius:10px;
+    box-shadow: inset 3px 3px 10px #ccc;
+}
+#progress::-webkit-progress-value {
+    border-radius:10px;
+    background: #445b9e;
+    background: -webkit-linear-gradient(to right, #6d7c8d, #1e2430);
+    background: linear-gradient(to right, #6d7c8d, #1e2430);
+
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/css/index4_style.css">
+    <!--<link rel="stylesheet" href="../static/css/bootstrap-theme.css.map">-->
+
+</head>
+<body>
+    <div id="main">
+        <span style="font-size: 100%"> 사용중인 제품이 피부타입에 </span>
+        <span id="result" style="font-size: 150%"></span>
+        <span id="result_ment" style="font-size: 100%"></span>
+
+        <br><br>
+        <h2 id="prod">제품군 나오는 곳~</h2>
+    </div>
+
+    <script>
+        let result = localStorage.getItem('result');
+        document.getElementById("result").innerHTML = result;
+
+        if (result == "적절") {
+            document.getElementById("result_ment").innerHTML = "하므로 잘 맞는 성분의 더 저렴한 제품으로 추천해드릴게요";
+        }
+        else if (result = "부적절") {
+            document.getElementById("result_ment").innerHTML = "하므로 피부타입에 맞는 성분의 제품으로 추천해드릴게요";
+        }
+        else {
+            //오류처리,,,,
+        }
+    </script>
+</body>
+</html>
